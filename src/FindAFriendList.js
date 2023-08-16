@@ -41,14 +41,14 @@ function FindAFriendList() {
 
   async function likeUser() {
     //add interacting user
-    await FrienderApi.likeAUser(username, friends[0].username);
+    await FrienderApi.likeAUser(username, friends[0]);
     removeInteractedFriend();
   }
 
-  // async function dislikeUser(interactingUser) {
-  //   await FrienderApi.dislikeAUser(username, interactingUser);
-  //   removeInteractedFriend();
-  // }
+  async function dislikeUser() {
+    await FrienderApi.dislikeAUser(username, friends[0]);
+    removeInteractedFriend();
+  }
 
   /** renderInfo receives nothing, returns instances of the CompanyCard component*/
   function renderFriendCard() {
@@ -64,7 +64,7 @@ function FindAFriendList() {
         <div>
           {renderFriendCard()}
           <button onClick={likeUser} className="btn btn-success">Yes</button>
-          {/* <button onClick={} className="btn btn-danger">No</button> */}
+          <button onClick={dislikeUser} className="btn btn-danger">No</button>
         </div>
       )}
       {friends.length === 0 && (

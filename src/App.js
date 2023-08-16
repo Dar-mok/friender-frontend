@@ -15,16 +15,25 @@ function App() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
 
-  useEffect(function updateLocalStorage() {
-    token ? localStorage.setItem("token", token) : localStorage.removeItem("token");
-  }, [token]);
+  // useEffect(function updateLocalStorage() {
+  //   console.log("logging out and resetting token");
+  //   token ? localStorage.setItem("token", token) : localStorage.removeItem("token");
+  // }, [token]);
 
   /**gets user object from API upon receipt of JWT token */
   useEffect(() => {
     async function getUserData() {
-      const { username } = jwt_decode(token);
-      FrienderApi.token = token;
+      //added local memory storage adding and removal here instead of its own hook
+      /** moving
+       * const { username } = jwt_decode(token);
+         FrienderApi.token = token;
+         to inside the try block
+       * */
+      // const { username } = jwt_decode(token);
+      // FrienderApi.token = token;
       try {
+        const { username } = jwt_decode(token);
+        FrienderApi.token = token;
         const userInfo = await FrienderApi.getUser(username);
         setIsLoading(false);
         setUser({ ...userInfo });
@@ -34,7 +43,9 @@ function App() {
     }
     if (!token) {
       setUser(null);
+      localStorage.removeItem("token");
     } else {
+      localStorage.setItem("token", token);
       getUserData();
     }
   }, [token]);

@@ -23,7 +23,7 @@ class FrienderApi {
     // const headers = { Authorization: `Bearer ${FrienderApi.token}` };
     console.log("headers are", headers);
     const params = method === "get" ? data : {};
-
+    console.log("interacting username from the data object in the request is", data.viewedUser);
     try {
       return (await axios({ url, method, data, params, headers })).data;
     } catch (err) {
@@ -83,6 +83,7 @@ class FrienderApi {
 
   static async getPossibleFriends(username) {
     let res = await this.request(`findFriends/${username}`);
+    console.log("resp.users for getting all the users to view is=", res.users);
     return res.users
   }
 
@@ -104,13 +105,17 @@ class FrienderApi {
 
   /** requires username, interactingUser like {viewedUser, didLike} */
   static async likeAUser(username, interactingUser) {
+    console.log("inside the the 'likeAUser' function");
+    console.log("interacting username is", interactingUser.username);
     let res = await this.request(`matches/${username}`, {viewedUser: interactingUser, didLike: true}, "post");
+    //below console log should have curr users username, entire interacted with user object, and boolean
+    console.log("res.interaction is=", res.interaction);
     return res.interaction
   }
 
   /** requires username, interactingUser like {viewedUser, didLike} */
   static async dislikeAUser(username, interactingUser) {
-    let res = await this.request(`matches/${username}`, {interactingUser: interactingUser, didLike: false}, "post");
+    let res = await this.request(`matches/${username}`, {viewedUser: interactingUser, didLike: false}, "post");
     return res.interaction
   }
 
