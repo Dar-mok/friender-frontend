@@ -66,9 +66,10 @@ function Matches(){
   function showMatches(){
     const thematches= matches.map(mtchObj=>{
       return (
-        <div className="text-dark">
-          <h2>mtchObj.username</h2>
-          <h2>mtchObj.hobbies</h2>
+        <div className="text-dark" key={mtchObj.viewUser}>
+          <h2>testing</h2>
+          <h2>{mtchObj.viewUser}</h2>
+          {/* <h2>{mtchObj.hobbies}</h2> */}
         </div>
       )
     })
